@@ -2,7 +2,10 @@ module VecTargets
 
 include("bnormals.jl")
 using BSON, Parameters, Distributions, DistributionsAD
+using DifferentiationInterface
+const DI = DifferentiationInterface
 using Random: GLOBAL_RNG, shuffle
+using ReverseDiff
 using StatsFuns: logsumexp, logistic
 include("ad.jl")
 
@@ -30,6 +33,6 @@ include("coxprocess.jl")
 export LogGaussianCoxPointProcess
 
 export dim, rand, logpdf, pdf
-export logpdf_grad, gen_logpdf_grad, logpdf_hess, gen_logpdf_hess, logpdf_Hvp, gen_logpdf_Hvp
+export logpdf_grad, gen_logpdf_grad, logpdf_hess, gen_logpdf_hess, logpdf_hvp, gen_logpdf_hvp
 
 end # module

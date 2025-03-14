@@ -7,7 +7,7 @@ end
 
 # Ref: https://github.com/pierrejacob/debiasedhmc/blob/master/inst/coxprocess/model.R#L6-L22
 function LogGaussianCoxPointProcess(datadir::String, ngrid::Int)
-    @unpack data_counts, ngrid, dimension, sigmasq, mu, beta, area = 
+    (; data_counts, ngrid, dimension, sigmasq, mu, beta, area) = 
         BSON.load(joinpath(datadir, "finpines-$ngrid.bson"))
     μ = fill(mu, dimension)
     Σ = Matrix{Float64}(undef, dimension, dimension)

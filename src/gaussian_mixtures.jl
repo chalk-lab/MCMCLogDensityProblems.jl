@@ -18,7 +18,7 @@ TwoDimGaussianMixtures() = GaussianMixtures(
 )
 
 function rand(rng::AbstractRNG, gms::GaussianMixtures, n::Int=1)
-    @unpack mixing, components = gms
+    (; mixing, components) = gms
     components = [
         BroadcastedNormalStd(mean(components)[:,i], std(components)) for i in 1:length(mixing)
     ]
@@ -34,7 +34,7 @@ end
 rand(gms::GaussianMixtures, args...) = rand(GLOBAL_RNG, gms, args...)
 
 function _logpdf(gms::GaussianMixtures, x)
-    @unpack mixing, components = gms
+    (; mixing, components) = gms
     lps = logpdf(components, x)
     lps = dropdims(sum(lps; dims=1); dims=1)
     lps_norm = lps .+ log.(mixing)
