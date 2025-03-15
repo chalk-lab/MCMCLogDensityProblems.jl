@@ -22,10 +22,10 @@ end
 
 function gen_hvp(func, x::AbstractArray, v; autodiff = AutoReverseDiff())
     prep = DI.prepare_hvp(func, autodiff, x, (v,))
-    function Hvp(x::AbstractArray, v)
+    function hvp(x::AbstractArray, v)
         first(DI.hvp(func, prep, autodiff, x, (v,)))
     end
-    return Hvp
+    return hvp
 end
 
 # Helper function for compiling gradient and hessian function using ReverseDiff.jl

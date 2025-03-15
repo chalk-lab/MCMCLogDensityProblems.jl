@@ -15,12 +15,14 @@ ReverseDiff = "37e2e3b7-166d-5795-8a7a-e32c996b4267"
 StatsFuns = "4c63d2b9-4356-54db-8cca-17b64c39e42c"
 
 [compat]
+Aqua = "0.8"
 BSON = "0.3.9"
 DifferentiationInterface = "0.6.43"
 Distributions = "0.25"
 DistributionsAD = "0.6.57"
 LinearAlgebra = "1.10"
 Parameters = "0.12"
+Plots = "1"
 Random = "1.10"
 ReverseDiff = "1.15"
 StatsFuns = "1.3"
@@ -28,9 +30,10 @@ Test = "1.10"
 julia = "1.10"
 
 [extras]
+Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
 BSON = "fbb218c0-5317-5bc6-957e-2ee96dd4b1f0"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["BSON", "Plots", "Test"]
+test = ["Aqua", "BSON", "Plots", "Test"]

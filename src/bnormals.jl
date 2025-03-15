@@ -1,7 +1,5 @@
 # Broadcasted Normals that works on GPUs
 
-using Random: AbstractRNG, rand!, randn!
-
 function _rsimilar(rng::AbstractRNG, f!::Function, x::AbstractArray, dims::Int...)
     u = similar(x, size(x)..., dims...)
     f!(rng, u)
@@ -13,16 +11,13 @@ rsimilar(rng, f!, x::AbstractArray, dims::Int...) = _rsimilar(rng, f!, x, dims..
 randsimilar(rng::AbstractRNG, x::AbstractArray, dims::Int...) = rsimilar(rng, rand!, x, dims...)
 randnsimilar(rng::AbstractRNG, x::AbstractArray, dims::Int...) = rsimilar(rng, randn!, x, dims...)
 
-using Distributions: Distributions, VariateForm, ValueSupport, Discrete, Continuous, Distribution, ContinuousMultivariateDistribution
-import Distributions: logpdf, pdf, cdf, invlogcdf, ccdf, rand, mean, std, var, mode, minimum, maximum
-
 struct Batch <: VariateForm end
 
 const ContinuousBatchDistribution = Distribution{Batch,Continuous}
 
 abstract type AbstractBroadcastedNormal <: ContinuousBatchDistribution end
 
-function rand(rng::AbstractRNG, bd::AbstractBroadcastedNormal, dims::Int...)
+function Base.rand(rng::AbstractRNG, bd::AbstractBroadcastedNormal, dims::Int...)
     return bd.m .+ std(bd) .* randnsimilar(rng, bd.m, dims...)
 end
 

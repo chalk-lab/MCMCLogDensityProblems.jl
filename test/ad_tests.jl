@@ -3,7 +3,7 @@ using VecTargets: gen_grad, gen_hvp
 
 @testset "AD Tests" begin
     @testset "gen_grad" begin
-        for target in [Banana(), Funnel(), HighDimGaussian(10), OneDimGaussianMixtures()]
+        for target in [Banana(), Funnel(), HighDimGaussian(10), OneDimGaussianMixtures(), TwoDimGaussianMixtures()]
             d = dim(target)
             for x in [randn(d), randn(d, 100)]
                 v, g = logpdf_grad(target, x)
