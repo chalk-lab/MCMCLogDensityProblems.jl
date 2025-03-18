@@ -1,8 +1,8 @@
 module VecTargets
 
 using BSON, Parameters, Distributions, DistributionsAD
-import Distributions: Distributions, VariateForm, ValueSupport, Discrete, Continuous, Distribution, ContinuousMultivariateDistribution, logpdf, pdf, cdf, invlogcdf, ccdf, rand, mean, std, var, mode, minimum, maximum
 using DifferentiationInterface
+import Distributions: Distribution, dim, rand, logpdf, pdf, VariateForm, Continuous
 using Random: AbstractRNG, rand!, randn!, GLOBAL_RNG, shuffle
 using ReverseDiff
 using StatsFuns: logsumexp, logistic
@@ -11,8 +11,6 @@ const DI = DifferentiationInterface
 
 include("bnormals.jl")
 include("ad.jl")
-
-import Distributions: dim, rand, logpdf, pdf
 
 include("banana.jl")
 export Banana

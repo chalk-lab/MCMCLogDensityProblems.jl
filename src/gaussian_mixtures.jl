@@ -31,7 +31,6 @@ function Base.rand(rng::AbstractRNG, gms::GaussianMixtures, n::Int=1)
     return cat(samples...; dims=ndims(samples[1])+1)
 end
 
-#Base.rand(gms::GaussianMixtures, args...) = Base.rand(GLOBAL_RNG, gms, args...)
 Base.rand(gms::GaussianMixtures, dims::NTuple{N, Int64}) where N = Base.rand(GLOBAL_RNG, gms, dims)
 Base.rand(gms::GaussianMixtures, d::Distributions.Erlang) = Base.rand(GLOBAL_RNG, gms, d)
 

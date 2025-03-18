@@ -1,34 +1,34 @@
 # Wrappers for gradient, hessian and Hessian-vector product functions
 
-function gen_grad(func, x::AbstractArray; autodiff = AutoReverseDiff())
+function gen_grad(func, x::AbstractArray; adtype = AutoReverseDiff())
     function retval_sum(x)
         retval = func(x)
         return sum(retval)
     end
-    prep = DI.prepare_gradient(retval_sum, autodiff, x)
+    prep = DI.prepare_gradient(retval_sum, adtype, x)
     function grad(x)
-        return func(x), DI.gradient(retval_sum, prep, autodiff, x)
+        return func(x), DI.gradient(retval_sum, prep, adtype, x)
     end
     return grad
 end
 
-function gen_hess(func, x::AbstractArray; autodiff = AutoReverseDiff())
-    prep = DI.prepare_hessian(func, autodiff, x)
+function gen_hess(func, x::AbstractArray; adtype = AutoReverseDiff())
+    prep = DI.prepare_hessian(func, adtype, x)
     function hess(x::AbstractArray)
-        DI.value_gradient_and_hessian(func, prep, autodiff, x)
+        DI.value_gradient_and_hessian(func, prep, adtype, x)
     end
     return hess
 end
 
-function gen_hvp(func, x::AbstractArray, v; autodiff = AutoReverseDiff())
-    prep = DI.prepare_hvp(func, autodiff, x, (v,))
+function gen_hvp(func, x::AbstractArray, v; adtype = AutoReverseDiff())
+    prep = DI.prepare_hvp(func, adtype, x, (v,))
     function hvp(x::AbstractArray, v)
-        first(DI.hvp(func, prep, autodiff, x, (v,)))
+        first(DI.hvp(func, prep, adtype, x, (v,)))
     end
     return hvp
 end
 
-# Helper function for compiling gradient and hessian function using ReverseDiff.jl
+# Helper function for compiling gradient and hessian functions
 gen_logpdf(target) = x -> logpdf(target, x)
 gen_logpdf_grad(target, x) = gen_grad(gen_logpdf(target), x)
     logpdf_grad(target, x) = gen_logpdf_grad(target, x)(x)
