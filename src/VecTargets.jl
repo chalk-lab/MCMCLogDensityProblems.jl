@@ -1,13 +1,11 @@
 module VecTargets
 
 using BSON, Parameters, Distributions, DistributionsAD
-using DifferentiationInterface
+using DifferentiationInterface: DifferentiationInterface as DI, AutoReverseDiff
 import Distributions: Distribution, dim, rand, logpdf, pdf, VariateForm, Continuous
 using Random: AbstractRNG, rand!, randn!, GLOBAL_RNG, shuffle
-using ReverseDiff
+using ReverseDiff: ReverseDiff
 using StatsFuns: logsumexp, logistic
-
-const DI = DifferentiationInterface
 
 include("bnormals.jl")
 include("ad.jl")
