@@ -1,4 +1,4 @@
-module VecTargets
+module MCMCLogDensityProblems
 
 using BSON, Parameters, Distributions, DistributionsAD
 using DifferentiationInterface: DifferentiationInterface as DI, AutoReverseDiff

@@ -1,5 +1,5 @@
-using Test, VecTargets
-using VecTargets: gen_grad, gen_hvp
+using Test, MCMCLogDensityProblems
+using MCMCLogDensityProblems: gen_grad, gen_hvp
 
 @testset "AD Tests" begin
     @testset "gen_grad" begin
@@ -24,7 +24,7 @@ using VecTargets: gen_grad, gen_hvp
         
         Hvp_analytical = (A + A') * v
         
-        _, _, H = VecTargets.gen_hess(f, x)(x)
+        _, _, H = MCMCLogDensityProblems.gen_hess(f, x)(x)
         Hvp = H' * v
         
         Hvp_ad = gen_hvp(f, x, v)(x, v)
