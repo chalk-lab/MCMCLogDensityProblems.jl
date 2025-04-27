@@ -5,7 +5,7 @@ struct LogisticRegression{TX, Ty, T}
 end
 
 function LogisticRegression(datadir::String, lambda::AbstractFloat)
-    @unpack design_matrix, response = BSON.load(joinpath(datadir, "germancredit.bson"))
+    (; design_matrix, response) = BSON.load(joinpath(datadir, "germancredit.bson"))
     return LogisticRegression(design_matrix', response, lambda)
 end
 

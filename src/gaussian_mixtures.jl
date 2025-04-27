@@ -1,4 +1,4 @@
-struct GaussianMixtures{M, C}
+struct GaussianMixtures{M, C} <: ContinuousMultivariateDistribution
     mixing::M
     components::C
 end
@@ -17,8 +17,8 @@ TwoDimGaussianMixtures() = GaussianMixtures(
     [0.25, 0.4, 0.35], [-1.0 0.0 1.0; -2.0 0.0 2.0], [0.25]
 )
 
-function rand(rng::AbstractRNG, gms::GaussianMixtures, n::Int=1)
-    @unpack mixing, components = gms
+function Base.rand(rng::AbstractRNG, gms::GaussianMixtures, n::Int=1)
+    (; mixing, components) = gms
     components = [
         BroadcastedNormalStd(mean(components)[:,i], std(components)) for i in 1:length(mixing)
     ]
@@ -31,10 +31,11 @@ function rand(rng::AbstractRNG, gms::GaussianMixtures, n::Int=1)
     return cat(samples...; dims=ndims(samples[1])+1)
 end
 
-rand(gms::GaussianMixtures, args...) = rand(GLOBAL_RNG, gms, args...)
+Base.rand(gms::GaussianMixtures, dims::NTuple{N, Int64}) where N = Base.rand(GLOBAL_RNG, gms, dims)
+Base.rand(gms::GaussianMixtures, d::Distributions.Erlang) = Base.rand(GLOBAL_RNG, gms, d)
 
 function _logpdf(gms::GaussianMixtures, x)
-    @unpack mixing, components = gms
+    (; mixing, components) = gms
     lps = logpdf(components, x)
     lps = dropdims(sum(lps; dims=1); dims=1)
     lps_norm = lps .+ log.(mixing)

@@ -1,4 +1,4 @@
-using VecTargets, Plots, BSON
+using MCMCLogDensityProblems, Plots, BSON
 
 function contour_density(target, x, y)
     X = repeat(reshape(x, 1, :), length(y), 1)

@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+concurrency:
+  # Skip intermediate builds: always.
+  # Cancel intermediate builds: only if it is a pull request build.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
+
+jobs:
+  test:
+    # needed to allow julia-actions/cache to delete old caches that it has created
+    permissions:
+      actions: write
+      contents: read
+    runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.version == 'pre' }}
+    strategy:
+      matrix:
+        version:
+          - 'min'
+          - '1'
+          - 'pre'
+        os:
+          - ubuntu-latest
+          - macOS-latest
+          - windows-latest
+        exclude:
+          - version: 'min'
+            os: macOS-latest # Apple Silicon
+        include:
+          - version: 'min'
+            os: macOS-13 # Intel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: ${{ matrix.version }}
+      - uses: julia-actions/cache@v2
+      - uses: julia-actions/julia-buildpkg@v1
+      - name: Run tests
+        uses: julia-actions/julia-runtest@v1
