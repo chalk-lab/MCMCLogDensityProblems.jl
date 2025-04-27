@@ -1,12 +1,14 @@
-module VecTargets
+module MCMCLogDensityProblems
+
+using BSON, Parameters, Distributions, DistributionsAD
+using DifferentiationInterface: DifferentiationInterface as DI, AutoReverseDiff
+import Distributions: Distribution, dim, rand, logpdf, pdf, VariateForm, Continuous
+using Random: AbstractRNG, rand!, randn!, GLOBAL_RNG, shuffle
+using ReverseDiff: ReverseDiff
+using StatsFuns: logsumexp, logistic
 
 include("bnormals.jl")
-using BSON, Parameters, Distributions, DistributionsAD
-using Random: GLOBAL_RNG, shuffle
-using StatsFuns: logsumexp, logistic
 include("ad.jl")
-
-import Distributions: dim, rand, logpdf, pdf
 
 include("banana.jl")
 export Banana
@@ -30,6 +32,6 @@ include("coxprocess.jl")
 export LogGaussianCoxPointProcess
 
 export dim, rand, logpdf, pdf
-export logpdf_grad, gen_logpdf_grad, logpdf_hess, gen_logpdf_hess, logpdf_Hvp, gen_logpdf_Hvp
+export logpdf_grad, gen_logpdf_grad, logpdf_hess, gen_logpdf_hess, logpdf_hvp, gen_logpdf_hvp
 
 end # module

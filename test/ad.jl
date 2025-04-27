@@ -1,9 +1,9 @@
-using Test, VecTargets
-using VecTargets: gen_grad, gen_Hvp
+using Test, MCMCLogDensityProblems
+using MCMCLogDensityProblems: gen_grad, gen_hvp
 
-@testset "ad.jl" begin
+@testset "AD Tests" begin
     @testset "gen_grad" begin
-        for target in [Banana(), HighDimGaussian(10)]
+        for target in [Banana(), Funnel(), HighDimGaussian(10), OneDimGaussianMixtures(), TwoDimGaussianMixtures()]
             d = dim(target)
             for x in [randn(d), randn(d, 100)]
                 v, g = logpdf_grad(target, x)
@@ -16,18 +16,18 @@ using VecTargets: gen_grad, gen_Hvp
             end
         end
     end
-    @testset "gen_Hvp" begin
+    @testset "gen_hvp" begin
         A = randn(2, 2)
         f = x -> x' * A * x
-        x = randn(2) 
+        x = randn(2)
         v = randn(2)
         
-        Hvp_analytical = 2 * A * v
+        Hvp_analytical = (A + A') * v
         
-        _, _, H = VecTargets.gen_hess(f, x)(x)
+        _, _, H = MCMCLogDensityProblems.gen_hess(f, x)(x)
         Hvp = H' * v
         
-        Hvp_ad = gen_Hvp(f, x, v)(x, v)
+        Hvp_ad = gen_hvp(f, x, v)(x, v)
         
         @test Hvp_analytical ≈ Hvp ≈ Hvp_ad
     end

@@ -15,7 +15,7 @@ function LogisticRegression(
     datadir::String, lambda::AbstractFloat; 
     num_obs::Int=1_000, num_latent::Int=300, no_pca::Bool=false
 )
-    @unpack design_matrix, response = BSON.load(joinpath(datadir, "germancredit.bson"))
+    (; design_matrix, response) = BSON.load(joinpath(datadir, "germancredit.bson"))
     design_matrix = size(design_matrix, 2) == num_latent ? design_matrix :
         (no_pca ? design_matrix[:,1:num_latent] : reduce_dim_by_pca(design_matrix, num_latent))
     return LogisticRegression(design_matrix[1:num_obs,:], Bool.(response[1:num_obs]), lambda)

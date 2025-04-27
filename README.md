@@ -1,6 +1,6 @@
-# VecTargets.jl: Vectorized (Sampling) Targets
+# MCMCLogDensityProblems.jl: Vectorised Log Density Targets for MCMC
 
-This package contains common target distributions in Bayesian inference with vectorized log-density and gradient evaluation supported.
+This package contains common target distributions in Bayesian inference, with vectorised log-density and gradient evaluation supported.
 
 ## A minimal example
 
@@ -18,8 +18,8 @@ x = hcat(x, x)                  # size(x) is (2, 2)
 
 ## A note on the gradient interface
 
-All targets supports `logpdf_grad(target, x::VecOrMat)` which returns a tuple of log-densities and its gradients.
-The gradient in most of the cases (if I didn't hand-code them) are computed via ReverseDiff.jl, which compiles a tape for the gradient.
+All targets support `logpdf_grad(target, x::VecOrMat)`, which returns a tuple of log-densities and their gradients.
+The gradient in most cases (if I didn't hand-code them) is computed via ReverseDiff.jl, which compiles a tape for the gradient.
 Thus, if you were to call the gradient multiple times, you can potentially save the compilation time by avoiding calling `logpdf_grad` directly, but instead
 ```julia
 gradfunc = gen_logpdf_grad(target, x)
@@ -27,7 +27,7 @@ gradfunc(x) # 1st time
 gradfunc(x) # 2nd time
             # ...
 ```
-Also note that `gen_logpdf_grad` still expects the second argument `x::Union{AbstractVecotr, AbstractMatrix}` to correctly dispatch on vectorized mode or not.
+Also note that `gen_logpdf_grad` still expects the second argument `x::Union{AbstractVector, AbstractMatrix}` to correctly dispatch on vectorised mode or not.
 
 ## Targets included
 
@@ -52,5 +52,5 @@ Also note that `gen_logpdf_grad` still expects the second argument `x::Union{Abs
   - Dataset processed
     
     ![](test/finpine-grid.png)
-  - Note the visualizations above are NOT the posterior but just datasets.
+  Note that the visualisations above are not the posterior but rather just datasets.
 
