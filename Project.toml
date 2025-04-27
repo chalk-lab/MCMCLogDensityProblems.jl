@@ -1,4 +1,4 @@
-name = "VecTargets"
+name = "MCMCLogDensityProblems"
 uuid = "8a639fad-7908-4fe4-8003-906e9297f002"
 authors = ["Kai Xu <xukai921110@gmail.com>"]
 version = "0.2.0"
