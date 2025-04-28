@@ -62,26 +62,11 @@ function _logpdf(lr::LogisticRegression, theta::AbstractVector{T}) where {T}
     p = p * (1 - 2 * eps(T)) .+ eps(T)    # numerical stability
 
     logabsdetjacob = logv
-    # logprior = logpdf(Exponential(1 / lr.lambda), v) + logabsdetjacob
     logprior = sum(_logpdf_exponential.(v, lr.lambda) + logabsdetjacob)
-    # s = sqrt.(v)
-    # logprior += logpdf(BroadcastedNormalStd(zeros(T, 1), s), a)
     logprior += sum(_logpdf_normal_var.(a, 0, v))
-    # logprior_b = logpdf(BroadcastedNormalStd(zeros(T, 1, 1), s'), b)
-    # logprior += dropdims(sum(logprior_b; dims=1); dims=1)
     logprior += sum(_logpdf_normal_var.(b, 0, v))
-    # loglike_elementwise = logpdf.(Bernoulli.(p), lr.y)
-    # loglike = dropdims(sum(loglike_elementwise; dims=1); dims=1)
     loglike = sum(_logpdf_bernoulli.(lr.y, p))
     return logprior + loglike
 end
-
-# function logpdf(lr::LogisticRegression, theta::AbstractVector)
-#     theta = reshape(theta, length(theta), 1)
-#     lp = _logpdf(lr, theta)
-#     return only(lp)
-# end
-
-# logpdf(lr::LogisticRegression, theta::AbstractMatrix) = _logpdf(lr, theta)
 
 logpdf(lr::LogisticRegression, theta::AbstractVecOrMat) = _logpdf(lr, theta)
