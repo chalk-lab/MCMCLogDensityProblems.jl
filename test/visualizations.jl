@@ -55,6 +55,15 @@ y = -0.6:0.01:0.6
 p = contour_density(target, x, y)
 savefig(p, "spiral.png")
 
+### Neal's Funnel
+
+target = Funnel()
+
+x = -8.0:0.01:8.0
+y = -8.0:0.01:8.0
+p = contour_density(target, x, y)
+savefig(p, "funnel.png")
+
 ## Finnish pine saplings dataset
 
 datadir = joinpath(splitdir(@__DIR__)[1:end-1]..., "data")
