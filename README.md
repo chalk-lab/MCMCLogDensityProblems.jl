@@ -49,7 +49,7 @@ Also note that `gen_logpdf_grad` still expects the second argument `x::Union{Abs
 
   ![](test/2d_mog.png)
 
-- Spiral distribution: `Spiral(n_gaussians, )`
+- Spiral distribution: `Spiral(n_gaussians, σ)`
   
   ![](test/spiral.png)
 
