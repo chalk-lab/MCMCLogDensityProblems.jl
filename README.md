@@ -31,19 +31,32 @@ Also note that `gen_logpdf_grad` still expects the second argument `x::Union{Abs
 
 ## Targets included
 
-- Banana distribution 
+- Banana distribution: `Banana()`
   
   ![](test/banana.png)
-- Multivariate diagonal Gaussian 
+
+- Multivariate diagonal Gaussian: `HighDimGaussian(dim)`
   
   ![](test/2d_gaussian.png)
+
 - Mixture of Gaussians 
-  
-  ![](test/1d_mog.png) 
+
+  - One dimensional mixture of gaussians: `OneDimGaussianMixtures()`
+
+  ![](test/1d_mog.png)
+
+  - Two dimensional mixture of gaussians: `TwoDimGaussianMixtures()`
+
   ![](test/2d_mog.png)
-- Spiral distribution 
+
+- Spiral distribution: `Spiral(n_gaussians, σ)`
   
   ![](test/spiral.png)
+
+- Neal's funnel: `Funnel()`
+
+  ![](test/funnel.png)
+
 - Logistic regression on the [German credit dataset](https://archive.ics.uci.edu/ml/datasets/statlog+(german+credit+data))
 - Log-Gaussian Cox point process on the [Finnish pine saplings dataset](https://rdrr.io/cran/spatstat.data/man/finpines.html)
   - Dataset raw
